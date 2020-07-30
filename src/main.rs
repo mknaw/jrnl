@@ -1,4 +1,6 @@
+use cursive::direction::Orientation;
 use cursive::vec::Vec2;
+use cursive::views::{Dialog, LinearLayout};
 use cursive::{Printer, View};
 
 mod theme;
@@ -44,6 +46,19 @@ impl View for MonthView {
     }
 }
 
+fn get_layout() -> LinearLayout {
+    let mut row_layout = LinearLayout::new(Orientation::Vertical);
+
+    for month_chunk in time::MONTHS.chunks(4) {
+        let mut col_layout = LinearLayout::new(Orientation::Horizontal);
+        for month in month_chunk.iter() {
+            col_layout.add_child(MonthView::new(time::MonthYear::new(*month, 2020)));
+        }
+        row_layout.add_child(col_layout);
+    }
+    row_layout
+}
+
 fn main() {
     let mut cur = cursive::default();
 
@@ -51,8 +66,6 @@ fn main() {
 
     cur.add_global_callback('q', |c| c.quit());
 
-    let month_year = time::MonthYear::new(time::Month::November, 2021);
-    cur.add_layer(MonthView::new(month_year));
-
+    cur.add_layer(Dialog::around(get_layout()));
     cur.run();
 }

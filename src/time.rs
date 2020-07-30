@@ -58,6 +58,7 @@ impl WeekDay {
 
 /// Months
 
+#[derive(Copy, Clone)]
 pub enum Month {
     January,
     February,
@@ -72,6 +73,21 @@ pub enum Month {
     November,
     December,
 }
+
+pub const MONTHS: [Month; 12] = [
+    Month::January,
+    Month::February,
+    Month::March,
+    Month::April,
+    Month::May,
+    Month::June,
+    Month::July,
+    Month::August,
+    Month::September,
+    Month::October,
+    Month::November,
+    Month::December,
+];
 
 impl fmt::Display for Month {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
@@ -177,11 +193,11 @@ impl MonthYear {
     pub fn first_weekday(&self) -> WeekDay {
         let jan_first_weekday = self.jan_first_weekday();
         if self.year.is_leap() {
-            let n_weekday = (jan_first_weekday + self.month.leap_year_weekday_offset_from_jan()) % 7;
+            let n_weekday =
+                (jan_first_weekday + self.month.leap_year_weekday_offset_from_jan()) % 7;
             return WEEKDAYS[n_weekday as usize];
         } else {
-            let n_weekday =
-                (jan_first_weekday + self.month.weekday_offset_from_jan()) % 7;
+            let n_weekday = (jan_first_weekday + self.month.weekday_offset_from_jan()) % 7;
             return WEEKDAYS[n_weekday as usize];
         }
     }
