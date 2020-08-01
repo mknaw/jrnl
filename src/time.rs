@@ -139,6 +139,12 @@ pub struct Year {
     year: u32,
 }
 
+impl fmt::Display for Year {
+    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+        write!(f, "{}", self.year)
+    }
+}
+
 impl Year {
     pub fn is_leap(&self) -> bool {
         if self.year % 100 == 0 {
@@ -151,6 +157,12 @@ impl Year {
 pub struct MonthYear {
     pub month: Month,
     pub year: Year,
+}
+
+impl fmt::Display for MonthYear {
+    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+        write!(f, "{}{}", self.month, self.year)
+    }
 }
 
 impl MonthYear {
